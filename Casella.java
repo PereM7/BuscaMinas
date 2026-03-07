@@ -1,3 +1,5 @@
+package Principi.Reptes.BuscaMinas.BuscaMinas;
+
 public class Casella {
     
     private boolean esMina = false;
