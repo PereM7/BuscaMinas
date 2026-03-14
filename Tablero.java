@@ -83,9 +83,56 @@ public class Tablero {
         }
     }
 
-    public void imprimirTablero () {
+    private char[][] arrayCaractersTablero () {
+        char[][] array = new char[altura][llargari];
+        char bandera = 'P';
+        char tapat = '-';
+        char buit = ' ';
 
+        for (int fila = 0; fila < array.length; fila++) {
+            for (int columna = 0; columna < array[fila].length; columna++) {
 
+                if (tauler[fila][columna].getMinesVoltant() == 0 && !tauler[fila][columna].getEsMina()) {
+                    array[fila][columna] = buit;
+                }
+                else if (tauler[fila][columna].getMinesVoltant() != 0) {
+                    array[fila][columna] = (char) (tauler[fila][columna].getMinesVoltant() + '0');
+                }
+                else if (tauler[fila][columna].getEstaTapada()) {
+                    array[fila][columna] = tapat;
+                }
+                else if (tauler[fila][columna].getTeBandera()) {
+                    array[fila][columna] = bandera;
+                }
+            }
+        }
+
+        return array;
     }
+
+    public void imprimirTablero () {
+        char[][] array = arrayCaractersTablero();
+
+        for (int fila = 0; fila < array.length; fila++) {
+            for (int columna = 0; columna < array[fila].length; columna++) {
+
+                System.out.println("[" + array[fila][columna] + "]");
+            }
+            System.out.println();
+        }
+    }
+
+    //imprimir tablero perdre (mines)
+
+    //jugar (inserir bandera, seleccionar casella, imprimir...)
 }
+
+
+/*
+    // Mina = *, Bandera = P, Tapat = -, Buit = " "
+    [1][1][1][2][*][1]
+    [1][*][2][2][*][2]
+    [ ][-][-][-][-][-]
+    [ ][-][-][ ][-][-]
+*/
 
