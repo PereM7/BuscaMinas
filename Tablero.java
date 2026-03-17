@@ -1,7 +1,10 @@
 package Principi.Reptes.BuscaMinas.BuscaMinas;
 
+import java.sql.SQLOutput;
+import java.util.Scanner;
+
 public class Tablero {
-    
+
     private int altura;
     private int llargari;
     private Casella[][] tauler;
@@ -17,12 +20,6 @@ public class Tablero {
         } else {
             System.out.println("Nombre de mines major a caselles disponibles, default 1");
         }
-    }
-
-    public void iniciarTauler() {
-        rellenarArray();
-        colocarMinesAleatoris();
-        calcularMinesVoltantCasella();
     }
 
     private boolean verificarNombreMines (int nombreMines) {
@@ -110,7 +107,7 @@ public class Tablero {
         return array;
     }
 
-    public void imprimirTablero () {
+    private void imprimirTablero () {
         char[][] array = arrayCaractersTablero();
 
         for (int fila = 0; fila < array.length; fila++) {
@@ -122,9 +119,76 @@ public class Tablero {
         }
     }
 
-    //imprimir tablero perdre (mines)
+    private void imprimirTableroPerdre () {
+        for (int fila = 0; fila < tauler.length; fila++) {
+            for (int columna = 0; columna < tauler[fila].length; columna++) {
 
-    //jugar (inserir bandera, seleccionar casella, imprimir...)
+                if (tauler[fila][columna].getEsMina()) {
+                    System.out.println("[*]");
+                }else{
+                    System.out.println("[ ]");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    private int llegitColumnaSeleccionada () {
+        Scanner sn = new Scanner(System.in);
+        int columna = 0;
+        do {
+            System.out.println("Introdueix la columna (0-" + (llargari - 1) + "): ");
+            columna = sn.nextInt();
+
+            if (columna < 0 || columna >= llargari) {
+                System.out.println("Incorrecte, no és un valor entre 0 i " + (llargari - 1));
+            }
+        } while (columna < 0 || columna >= llargari);
+
+        return columna;
+    }
+
+    private int llegitFilaSeleccionada () {
+        Scanner sn = new Scanner(System.in);
+
+        int fila = 0;
+        do {
+            System.out.println("Introdueix la fila (0-" + (altura - 1) + "): ");
+            fila = sn.nextInt();
+
+            if (fila < 0 || fila >= altura) {
+                System.out.println("Incorrecte, no és un valor entre 0 i " + (altura - 1));
+            }
+        } while (fila < 0 || fila >= altura);
+
+        return fila;
+    }
+
+    private boolean posarBandera () {
+        Scanner sn = new Scanner(System.in);
+        String llegir = "";
+
+        do {
+            System.out.println("Posar bandera (escriu P per posar o deixar buit per passar): ");
+            llegir = sn.nextLine().toLowerCase();
+
+            if (!llegir.equals("p") && !llegir.isEmpty()) {
+                System.out.println("Incorrecte, no és P o buit");
+            }
+        } while (!llegir.equals("p") && !llegir.isEmpty());
+
+        return true;
+    }
+
+    public void iniciarTauler() {
+        rellenarArray();
+        colocarMinesAleatoris();
+        calcularMinesVoltantCasella();
+    }
+
+    public void jugar () {
+
+    }
 }
 
 
@@ -132,7 +196,7 @@ public class Tablero {
     // Mina = *, Bandera = P, Tapat = -, Buit = " "
     [1][1][1][2][*][1]
     [1][*][2][2][*][2]
-    [ ][-][-][-][-][-]
+    [ ][-][-][P][-][-]
     [ ][-][-][ ][-][-]
 */
 
