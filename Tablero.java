@@ -133,7 +133,7 @@ public class Tablero {
         }
     }
 
-    private int llegitColumnaSeleccionada () {
+    private int llegirColumnaSeleccionada () {
         Scanner sn = new Scanner(System.in);
         int columna = 0;
         do {
@@ -148,7 +148,7 @@ public class Tablero {
         return columna;
     }
 
-    private int llegitFilaSeleccionada () {
+    private int llegirFilaSeleccionada () {
         Scanner sn = new Scanner(System.in);
 
         int fila = 0;
@@ -177,7 +177,7 @@ public class Tablero {
             }
         } while (!llegir.equals("p") && !llegir.isEmpty());
 
-        return true;
+        return llegir.equals("p");
     }
 
     public void iniciarTauler() {
@@ -187,6 +187,22 @@ public class Tablero {
     }
 
     public void jugar () {
+        boolean bandera;
+        int fila = 0;
+        int columna = 0;
+
+        while (true) {
+            imprimirTablero();
+            bandera = posarBandera();
+            fila = llegirFilaSeleccionada();
+            columna = llegirColumnaSeleccionada();
+
+            if (bandera && tauler[fila][columna].getEstaTapada()) {
+                tauler[fila][columna].setTeBandera(true);
+            } else {
+
+            }
+        }
 
     }
 }
