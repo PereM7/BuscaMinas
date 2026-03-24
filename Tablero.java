@@ -1,6 +1,5 @@
 package Principi.Reptes.BuscaMinas.BuscaMinas;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Tablero {
@@ -89,17 +88,17 @@ public class Tablero {
         for (int fila = 0; fila < array.length; fila++) {
             for (int columna = 0; columna < array[fila].length; columna++) {
 
-                if (tauler[fila][columna].getMinesVoltant() == 0 && !tauler[fila][columna].getEsMina()) {
-                    array[fila][columna] = buit;
-                }
-                else if (tauler[fila][columna].getMinesVoltant() != 0) {
-                    array[fila][columna] = (char) (tauler[fila][columna].getMinesVoltant() + '0');
+                if (tauler[fila][columna].getTeBandera()) {
+                    array[fila][columna] = bandera;
                 }
                 else if (tauler[fila][columna].getEstaTapada()) {
                     array[fila][columna] = tapat;
                 }
-                else if (tauler[fila][columna].getTeBandera()) {
-                    array[fila][columna] = bandera;
+                else if (tauler[fila][columna].getMinesVoltant() != 0) {
+                    array[fila][columna] = (char) (tauler[fila][columna].getMinesVoltant() + '0');
+                }
+                else if (tauler[fila][columna].getMinesVoltant() == 0 && !tauler[fila][columna].getEsMina()) {
+                    array[fila][columna] = buit;
                 }
             }
         }
@@ -113,7 +112,7 @@ public class Tablero {
         for (int fila = 0; fila < array.length; fila++) {
             for (int columna = 0; columna < array[fila].length; columna++) {
 
-                System.out.println("[" + array[fila][columna] + "]");
+                System.out.print("[" + array[fila][columna] + "]");
             }
             System.out.println();
         }
@@ -124,9 +123,9 @@ public class Tablero {
             for (int columna = 0; columna < tauler[fila].length; columna++) {
 
                 if (tauler[fila][columna].getEsMina()) {
-                    System.out.println("[*]");
+                    System.out.print("[*]");
                 }else{
-                    System.out.println("[ ]");
+                    System.out.print("[ ]");
                 }
             }
             System.out.println();
@@ -180,6 +179,20 @@ public class Tablero {
         return llegir.equals("p");
     }
 
+    private boolean haGuanyat () {
+        int contador = 0;
+
+        for (int fila = 0; fila < tauler.length; fila++) {
+            for (int columna = 0; columna < tauler[fila].length; columna++) {
+
+                if (tauler[fila][columna].getEsMina() && tauler[fila][columna].getTeBandera()) {
+                    contador++;
+                }
+            }
+        }
+        return contador == nombreMines;
+    }
+
     public void iniciarTauler() {
         rellenarArray();
         colocarMinesAleatoris();
@@ -200,7 +213,17 @@ public class Tablero {
             if (bandera && tauler[fila][columna].getEstaTapada()) {
                 tauler[fila][columna].setTeBandera(true);
             } else {
-
+                if (tauler[fila][columna].getEsMina()) {
+                    System.out.println("Has perdut.");
+                    imprimirTableroPerdre();
+                    break;
+                }else {
+                    tauler[fila][columna].setEstaTapada(false);
+                }
+                if (haGuanyat()) {
+                    System.out.println("Has guanyat!!!!");
+                    break;
+                }
             }
         }
 
@@ -214,5 +237,33 @@ public class Tablero {
     [1][*][2][2][*][2]
     [ ][-][-][P][-][-]
     [ ][-][-][ ][-][-]
+
+
+                if (tauler[fila][columna].getTeBandera()) {
+                    array[fila][columna] = bandera;
+                }
+                else if (tauler[fila][columna].getEstaTapada()) {
+                    array[fila][columna] = tapat;
+                }
+                else if (tauler[fila][columna].getMinesVoltant() != 0) {
+                    array[fila][columna] = (char) (tauler[fila][columna].getMinesVoltant() + '0');
+                }
+                else if (tauler[fila][columna].getMinesVoltant() == 0 && !tauler[fila][columna].getEsMina()) {
+                    array[fila][columna] = buit;
+                }
+
+
+                if (tauler[fila][columna].getMinesVoltant() == 0 && !tauler[fila][columna].getEsMina()) {
+                    array[fila][columna] = buit;
+                }
+                else if (tauler[fila][columna].getMinesVoltant() != 0) {
+                    array[fila][columna] = (char) (tauler[fila][columna].getMinesVoltant() + '0');
+                }
+                else if (tauler[fila][columna].getEstaTapada()) {
+                    array[fila][columna] = tapat;
+                }
+                else if (tauler[fila][columna].getTeBandera()) {
+                    array[fila][columna] = bandera;
+                }
 */
 
