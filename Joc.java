@@ -1,6 +1,6 @@
 package Principi.Reptes.BuscaMinas.BuscaMinas;
 
-public class Joc { 
+public class Joc {
 
     public static void main (String [] args) {
         Tablero joc = new Tablero(8, 8, 8);
@@ -8,4 +8,4 @@ public class Joc {
         joc.iniciarTauler();
         joc.jugar();
     }
-} 
+}

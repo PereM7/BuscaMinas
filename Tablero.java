@@ -163,6 +163,24 @@ public class Tablero {
         return fila;
     }
 
+
+    private void destaparCaselles (int fila, int columna) {
+
+        if (tauler[fila][columna].getMinesVoltant() == 0) {
+            for (int x = fila - 1; x <= fila + 1; x++) {
+                for (int y = columna - 1; y <= columna + 1; y++) {
+
+                    if(estaDinsTablero(x, y)) {
+                        tauler[x][y].setEstaTapada(false);
+                    }
+                }
+            }
+        }
+        else {
+            tauler[fila][columna].setEstaTapada(false);
+        }
+    }
+
     private boolean posarBandera () {
         Scanner sn = new Scanner(System.in);
         String llegir = "";
@@ -180,17 +198,17 @@ public class Tablero {
     }
 
     private boolean haGuanyat () {
-        int contador = 0;
+        int contador = ((altura * llargari) - nombreMines);
 
         for (int fila = 0; fila < tauler.length; fila++) {
             for (int columna = 0; columna < tauler[fila].length; columna++) {
 
-                if (tauler[fila][columna].getEsMina() && tauler[fila][columna].getTeBandera()) {
-                    contador++;
+                if (!tauler[fila][columna].getEsMina() && !tauler[fila][columna].getEstaTapada()) {
+                    contador--;
                 }
             }
         }
-        return contador == nombreMines;
+        return contador == 0;
     }
 
     public void iniciarTauler() {
@@ -203,30 +221,36 @@ public class Tablero {
         boolean bandera;
         int fila = 0;
         int columna = 0;
-
         while (true) {
             imprimirTablero();
-            bandera = posarBandera();
+
             fila = llegirFilaSeleccionada();
             columna = llegirColumnaSeleccionada();
+            bandera = posarBandera();
 
             if (bandera && tauler[fila][columna].getEstaTapada()) {
-                tauler[fila][columna].setTeBandera(true);
+                if (tauler[fila][columna].getTeBandera()) {
+                    tauler[fila][columna].setTeBandera(false);
+                }else {
+                    tauler[fila][columna].setTeBandera(true);
+                }
+
             } else {
                 if (tauler[fila][columna].getEsMina()) {
                     System.out.println("Has perdut.");
                     imprimirTableroPerdre();
                     break;
-                }else {
-                    tauler[fila][columna].setEstaTapada(false);
                 }
+                else {
+                    destaparCaselles(fila, columna);
+                }
+
                 if (haGuanyat()) {
                     System.out.println("Has guanyat!!!!");
                     break;
                 }
             }
         }
-
     }
 }
 
@@ -238,32 +262,5 @@ public class Tablero {
     [ ][-][-][P][-][-]
     [ ][-][-][ ][-][-]
 
-
-                if (tauler[fila][columna].getTeBandera()) {
-                    array[fila][columna] = bandera;
-                }
-                else if (tauler[fila][columna].getEstaTapada()) {
-                    array[fila][columna] = tapat;
-                }
-                else if (tauler[fila][columna].getMinesVoltant() != 0) {
-                    array[fila][columna] = (char) (tauler[fila][columna].getMinesVoltant() + '0');
-                }
-                else if (tauler[fila][columna].getMinesVoltant() == 0 && !tauler[fila][columna].getEsMina()) {
-                    array[fila][columna] = buit;
-                }
-
-
-                if (tauler[fila][columna].getMinesVoltant() == 0 && !tauler[fila][columna].getEsMina()) {
-                    array[fila][columna] = buit;
-                }
-                else if (tauler[fila][columna].getMinesVoltant() != 0) {
-                    array[fila][columna] = (char) (tauler[fila][columna].getMinesVoltant() + '0');
-                }
-                else if (tauler[fila][columna].getEstaTapada()) {
-                    array[fila][columna] = tapat;
-                }
-                else if (tauler[fila][columna].getTeBandera()) {
-                    array[fila][columna] = bandera;
-                }
 */
 
